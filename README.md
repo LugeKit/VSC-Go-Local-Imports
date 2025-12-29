@@ -1,71 +1,62 @@
-# go-local-imports README
+# Go Local Imports
 
-This is the README for your extension "go-local-imports". After writing up a brief description, we recommend including the following sections.
+**Go Local Imports** is a Visual Studio Code extension that automates the configuration of local import grouping for Go projects.
+
+When working on Go projects, it's a common practice to separate standard library imports, third-party imports, and local project imports into distinct groups. This is typically handled by `goimports` via the `local` flag. This extension automates setting that flag for `gopls` based on your project's `go.mod` file.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+*   **Automatic Module Detection**: Scans your workspace's `go.mod` file to identify the module name.
+*   **Seamless Configuration**: Automatically updates the workspace `gopls` settings (`formatting.local`) to include your module name.
+*   **Standardized Formatting**: Ensures that when you save or format your Go files, imports from your current project are grouped separately from third-party dependencies.
 
-For example if there is an image subfolder under your extension project workspace:
+## How It Works
 
-\!\[feature X\]\(images/feature-x.png\)
+1.  Open a Go project in VS Code that contains a `go.mod` file.
+2.  The extension activates and reads the module name from `go.mod`.
+3.  It checks your workspace settings for `gopls`.
+4.  If `formatting.local` is not already configured, it updates your `.vscode/settings.json` (Workspace Settings) to set `formatting.local` to your module name.
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+**Example Result:**
+
+Before (mixed imports):
+```go
+import (
+    "fmt"
+    "github.com/gin-gonic/gin"
+    "github.com/my-org/my-project/utils" // Local import mixed with 3rd party
+    "net/http"
+)
+```
+
+After (grouped imports):
+```go
+import (
+    "fmt"
+    "net/http"
+
+    "github.com/gin-gonic/gin"
+
+    "github.com/my-org/my-project/utils" // Local import separated
+)
+```
 
 ## Requirements
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+This extension relies on the official [Go extension for VS Code](https://marketplace.visualstudio.com/items?itemName=golang.go) to handle the actual formatting via `gopls`.
 
 ## Extension Settings
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+This extension modifies the following setting in your workspace configuration:
 
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
+*   `gopls`: Adds or updates the `formatting.local` property.
 
 ## Release Notes
 
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
+### 0.0.1
+*   Initial release.
+*   Basic functionality to read `go.mod` and set `gopls.formatting.local`.
 
 ---
 
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+**Enjoy coding with cleaner imports!**

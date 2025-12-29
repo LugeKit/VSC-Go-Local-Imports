@@ -12,6 +12,10 @@
   "activationEvents": [
     "workspaceContains:go.mod"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LugeKit/VSC-Go-Local-Imports"
+  },
   "extensionDependencies": [
     "golang.go"
   ],
